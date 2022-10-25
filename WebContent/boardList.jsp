@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, java.sql.*" %>
+    <%@ page import="java.util.Date, java.sql.*, java.text.*" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
 	response.setContentType("text/html; charset=UTF-8");
+	
+	String sid = (String) session.getAttribute("id");
 	
 	Connection con = null;
 	PreparedStatement pstmt = null;
@@ -18,21 +20,23 @@
 	try {
 		Class.forName("oracle.jdbc.OracleDriver");
 		con = DriverManager.getConnection(url, dbid, dbpw);
-		sql = "select * from membera";
-		pstmt = con.prepareStatement(sql);
-		//select된 데이터가 없으면, rs=null이 됨
+		sql = "select a.no no, a.title title, a.content content, ";
+		sql = sql + "b.name name, a.resdate resdate ";
+		sql = sql + "from boarda a inner join membera b ";
+		sql = sql + "on a.author=b.id order by a.resdate desc";
+		pstmt = con.prepareStatement(sql);                                                               
 		rs = pstmt.executeQuery();
-		//int cnt = pstmt.executeUpdate();
+		
 %>
-<!DOCTYPE html>
-<html>
+    <!DOCTYPE html>
+<html lang="ko">
 <head>
   <%@ include file ="head.jsp" %>
   	<link rel="stylesheet" href="./css/reset2.css">
     <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/footer.css">
     <style>
     /* header.css */
-    .hd{ position:fixed; }
     
     .vs { clear:both; width: 100%; height: 200px; overflow:hidden; }
     .vs img { display: block; width: 100%; height: auto; }
@@ -41,12 +45,12 @@
     
 
     /* footer.css */
-	    .page { clear:both; width: 100%; min-height:100vh;}
+	.page { clear:both; width: 100%; min-height:100vh;}
     .page:after { content:""; display:block; clear:both; }
     .page_wrap { width: 1200px; margin: 0 auto; }
     .page_title { padding-top: 1em; text-align: center; }
     .home { color:#333; }
-   .frm { border:2px solid #333; padding: 24px; width: 780px; margin:50px auto; }
+    .frm { border:2px solid #333; padding: 24px; width: 580px; margin:50px auto; }
     .tb { display:table; margin:40px auto; width:580px; border-collapse:collapse; }
     .tb tr { display:table-row; }
     .tb td, .tb th { display:table-cell; }
@@ -57,30 +61,17 @@
 	.tb tr th:nth-child(2) { width:160px; text-align:center; }
 	.tb tr th:nth-child(3) { width:160px; text-align:center; }
 	.tb tr th:last-child { text-align:center; }
+    .in_dt { background-color:#fff; height:32px; line-height: 32px; width: 280px; 
+    color:#f36; font-size:16px; text-indent:0.5em; }
+    .in_btn { display:block; background-color:#333; min-width:120px; height: 32px; 
+    line-height: 32px; border-radius:20px; float:left; margin-left:80px; margin-right:20px; cursor:pointer; }
+    .in_btn:hover { background-color: deepskyblue; }
     </style>
-   <link rel="stylesheet" href="./css/footer.css">
-    <script>
-    $(document).ready(function(){
-        $(window).scroll(function(){
-            var ht = $(window).height();
-            var tp = $(this).scrollTop();
-            if(tp>=600){
-                $(".hd").css("position","fixed");
-            } else {
-                $(".hd").css("position","absolute");
-            }
-        });
-        $
-        $("<ul class='circle_lst lst2'></ul>").insertAfter($(".circle_lst"));
-        $lst1_obj = $(".circle_lst li").clone();
-        $(".circle_lst.lst2").append($lst1_obj);
-    });    
-    </script>
 </head>
 <body>
 <div class="wrap">
     <header class="hd">
-		<%@ include file="nav.jsp" %>
+       <%@ include file ="nav.jsp" %>
     </header>
     <div class="content">
         <figure class="vs">
@@ -89,46 +80,66 @@
         <div class="bread">
             <div class="bread_fr">
                 <a href="index.jsp" class="home">HOME</a> &gt;
-                <span class="sel">회원목록</span>
+                <span class="sel">게시판 목록</span>
             </div>
         </div>
         <section class="page">
             <div class="page_wrap">
-                <h2 class="page_title">회원목록</h2>
-  				<div class="tb_fr">
-  					<table class="tb">
-  						<thead>
-  							<tr>
-  								<th>연번</th>
-  								<th>아이디</th>
-  								<th>이름</th>
-  								<th>가입일</th>
-  							</tr>
-  						</thead>
-  						<tbody>             
-<%
+                <h2 class="page_title">게시판 글 목록</h2>
+                <div class="tb_fr">
+                <table class="tb">
+                	<thead>
+                		<tr>
+                			<th>글 번호 </th>
+                			<th>제목</th>
+                			<th>작성자</th>
+                			<th>작성일</th>
+                		</tr>
+                	</thead>
+                	<tbody>
+               <%
 		int cnt = 0;
 		while(rs.next()){
 			cnt+=1;
+			SimpleDateFormat yymmdd = new SimpleDateFormat("yyyy-MM-dd");
+			String date = yymmdd.format(rs.getDate("resdate"));
 %>
-			<tr>
+                <tr>
 					<td><%=cnt %></td>
-					<td><a href='memInfo.jsp?id=<%=rs.getString("id") %>'><%=rs.getString("id") %></a></td>
+					<%
+					if(sid!=null) {
+					%>
+						<td><a href='boardDetail.jsp?no=<%=rs.getInt("no") %>'><%=rs.getString("title") %></a></td>
+					<%
+					} else {
+					%>
+						<td><%=rs.getString("title") %></td>
+					<%
+					}
+					%>
 					<td><%=rs.getString("name") %></td>
-					<td><%=rs.getString("regdate") %></td>
+					<td><%=date %></td>
 			</tr>
 <%
 		}
 	} catch(Exception e){
 		e.printStackTrace();
 	} finally {
-		rs.close();
 		pstmt.close();
 		con.close();
 	}
 %>
 						</tbody> 
 					</table>
+					<div class="btn_group">
+					<%
+						if(sid!=null) {
+					%>
+						<a href="boardWrite.jsp" class="btn primary">글 쓰기</a>
+					<%
+						}
+					%>
+					</div>
 				</div>
 			</div>
         </section>

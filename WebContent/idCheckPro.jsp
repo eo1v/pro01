@@ -39,8 +39,9 @@
 	%>
 	<script>
 	function apply(fid){
-		opener.document.frm1.id.valuse = fid;
+		opener.document.frm1.id.value = fid;
 		opener.document.frm1.idck.value = "yes";
+		window.close();
 	}	
 	</script>
 	<%

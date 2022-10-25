@@ -32,7 +32,7 @@
 
     /* footer.css */
     </style>
-    <%@ include file="footer.jsp" %>
+    <link rel ="stylesheet" href="./css/footer.css" >
     <script>
     $(document).ready(function(){
         $(window).scroll(function(){
@@ -58,7 +58,7 @@
                 <a href="index.jsp" class="logo"><img src="./img/logo.png" alt="로고"></a>
                 <nav class="tnb">
                     <a href="login.jsp">로그인</a>
-                    <a href="join.jsp">회원가입</a>
+                    <a href="joinform.jsp">회원가입</a>
                     <a href="mypage.jsp">마이페이지</a>
                 </nav>
                 <nav class="gnb">
@@ -426,7 +426,7 @@
             var ck_item1 = document.getElementById("ck_item1");
             in_btn1.addEventListener("click", function(){
                 if(ck_item1.checked) {
-                    location.href = "joinForm.jsp";
+                    location.href = "join.jsp";
                 } else {
                     alert("약관에 동의하지 않으셨습니다.");
                     return;

@@ -67,7 +67,7 @@
         </figure>
         <div class="bread">
             <div class="bread_fr">
-                <a href="index.html" class="home">HOME</a> &gt;
+                <a href="index.jsp" class="home">HOME</a> &gt;
                 <span class="sel">로그인</span>
             </div>
         </div>

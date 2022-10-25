@@ -1,10 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, java.sql.*" %>
+<%@ page import="java.sql.*" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
 	response.setContentType("text/html; charset=UTF-8");
+	
+	String uid = request.getParameter("id");
+	String upw = "";
+	String uname = "";
+	String uemail = "";
+	String utel = "";
+	String uregdate = "";
 	
 	Connection con = null;
 	PreparedStatement pstmt = null;
@@ -18,30 +25,45 @@
 	try {
 		Class.forName("oracle.jdbc.OracleDriver");
 		con = DriverManager.getConnection(url, dbid, dbpw);
-		sql = "select * from membera";
+		sql = "select * from membera where id=?";
 		pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, uid);
 		//select된 데이터가 없으면, rs=null이 됨
 		rs = pstmt.executeQuery();
 		//int cnt = pstmt.executeUpdate();
+		
+		if(rs.next()){
+			upw = rs.getString("pw");
+			uname = rs.getString("name");
+			uemail = rs.getString("email");
+			utel = rs.getString("tel");
+			uregdate = rs.getString("regdate");
+		}
+	} catch(Exception e){
+		e.printStackTrace();
+	} finally {
+		rs.close();
+		pstmt.close();
+		con.close();
+	}
 %>
 <!DOCTYPE html>
 <html>
-<head>
-  <%@ include file ="head.jsp" %>
-  	<link rel="stylesheet" href="./css/reset2.css">
+   <head>
+    <%@ include file ="head.jsp" %>
+    <link rel="stylesheet" href="./css/reset2.css">
     <link rel="stylesheet" href="./css/header.css">
     <style>
     /* header.css */
-    .hd{ position:fixed; }
-    
+    .hd { position: fixed;}
+
+    /* content */
     .vs { clear:both; width: 100%; height: 200px; overflow:hidden; }
     .vs img { display: block; width: 100%; height: auto; }
-    .bread { clear:both; width: 100%; line-height : 60px;  }
+    .bread { clear:both; width: 100%; line-height : 60px; }
     .bread_fr { width :1200px; margin: 0 auto;}
-    
-
-    /* footer.css */
-	    .page { clear:both; width: 100%; min-height:100vh;}
+ 
+     .page { clear:both; width: 100%; min-height:100vh;}
     .page:after { content:""; display:block; clear:both; }
     .page_wrap { width: 1200px; margin: 0 auto; }
     .page_title { padding-top: 1em; text-align: center; }
@@ -57,8 +79,9 @@
 	.tb tr th:nth-child(2) { width:160px; text-align:center; }
 	.tb tr th:nth-child(3) { width:160px; text-align:center; }
 	.tb tr th:last-child { text-align:center; }
+    /* footer.css */
     </style>
-   <link rel="stylesheet" href="./css/footer.css">
+    <link rel ="stylesheet" href="./css/footer.css" >
     <script>
     $(document).ready(function(){
         $(window).scroll(function(){
@@ -97,38 +120,34 @@
                 <h2 class="page_title">회원목록</h2>
   				<div class="tb_fr">
   					<table class="tb">
-  						<thead>
-  							<tr>
-  								<th>연번</th>
-  								<th>아이디</th>
-  								<th>이름</th>
-  								<th>가입일</th>
-  							</tr>
-  						</thead>
   						<tbody>             
-<%
-		int cnt = 0;
-		while(rs.next()){
-			cnt+=1;
-%>
-			<tr>
-					<td><%=cnt %></td>
-					<td><a href='memInfo.jsp?id=<%=rs.getString("id") %>'><%=rs.getString("id") %></a></td>
-					<td><%=rs.getString("name") %></td>
-					<td><%=rs.getString("regdate") %></td>
-			</tr>
-<%
-		}
-	} catch(Exception e){
-		e.printStackTrace();
-	} finally {
-		rs.close();
-		pstmt.close();
-		con.close();
-	}
-%>
+							<tr>
+								<th>아이디</th>
+								<td><%=uid %></td>
+							</tr>
+							<tr>
+								<th>비밀번호</th>
+								<td><%=upw %></td>
+							</tr>
+							<tr>
+								<th>이름</th>
+								<td><%=uname %></td>
+							</tr>
+							<tr>
+								<th>이메일</th>
+								<td><%=uemail %></td>
+							</tr>
+							<tr>
+								<th>전화번호</th>
+								<td><%=utel %></td>
+							</tr>
+							<tr>
+								<th>가입일</th>
+								<td><%=uregdate %></td>
+							</tr>
 						</tbody> 
 					</table>
+					<a href="memList.jsp">회원 목록</a>
 				</div>
 			</div>
         </section>

@@ -26,14 +26,14 @@
 				<span class="name_print"><%=name %>님</span>
 				<a href="logout.jsp">로그아웃</a>
                 <a href="mypage.jsp">마이페이지</a>
-                <a href="logout.jsp">로그아웃</a>
+                <a href="sitemap.jsp">사이트맵</a>
 				</div>             
             <%
              	}else {
             %>       
             	<div>
                 <a href="login.jsp">로그인</a>
-                <a href="join.jsp">회원가입</a>
+                <a href="term.jsp">회원가입</a>
                 <a href="sitemap.jsp">사이트맵</a>
                 </div>
             <%
