@@ -1,0 +1,17 @@
+@charset "UTF-8";
+.ft { clear:both; width: 100%; height: 200px; background-color: rgb(0, 0, 0); padding-bottom: 50px; }
+.ft_wrap { clear:both; width: 1200px; margin: 0 auto; padding-top: 50px;  }
+.ft_wrap:after { content:""; display:block; clear:both; }
+.ft_logo { float:left;  }
+.ft_logo img {width: 100px; float: left; margin : 0px -100px;}
+.mid_box { float:left; width: 600px; padding-left: 300px; }
+.fnb { clear:both; }
+.fnb a { color:rgb(205, 205, 205); font-size:12px; padding: 10px; }
+.fnb a.dpc { color:rgb(205, 205, 205); }
+.addr { padding-left: 10px; color:rgb(205, 205, 205); padding-top: 12px; 
+font-size:10px; line-height: 1.8; }
+.copyright { padding-left: 10px; color:(231, 231, 231); padding-top: 5px; font-size:10px; }
+.sel_box { float:right; border-bottom:1px solid rgb(255, 255, 255);
+height: 44px; line-height: 44px; text-align:center; width: 140px; }
+#sel { border:none; outline: none; background-color: transparent; color:rgb(255, 255, 255); }
+#sel option {background-color: #000; color:rgb(255, 255, 255); }

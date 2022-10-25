@@ -1,0 +1,31 @@
+@charset "UTF-8";
+.hd { width: 100%; height: 122px; position:absolute; top: 0; 
+    left: 0; z-index:91;}
+    .hd_wrap { width: 1222px; margin-top:10px; margin-left: auto; margin-right: auto; }
+    .logo { display:block; width: 144px; height: auto; float:left;
+    margin:35px 35px;}
+    .logo img { display:block; width: 90%; height: auto; }
+    .tnb { float:right; margin: 35px 40px; }
+    .tnb a { padding: 0.5em; font-size:11px; color:rgb(124, 124, 124); }
+    .tnb a:hover { color:rgb(255, 255, 255); font-weight:800; text-decoration: underline; }
+    /* 방법1 : logo/tnb/gnb 한 줄로 배치 */
+    /* .gnb { float:left;  width: 704px; margin-left: 50px; margin-top: 16px; } */
+    /* 방법2 : gnb만 밑으로 내릴 경우 */
+    .gnb { clear:both; width: 100%; }
+    /* clear-fix 처리 */
+    .gnb:after { content:""; display:block; clear:both; } 
+    .gnb > ul:after { content:""; display:block; clear:both; }
+    .gnb > ul > li { float:left; width: 20%; height:40px; line-height: 40px; position:relative; }
+    .gnb .dp1 { display:block; color:rgba(255, 255, 255, 0.756); text-align: center; 
+    background-color:rgba(0, 0, 0, 0); font-size:13px; }
+    .gnb li:hover .dp1 { color:rgb(255, 255, 255); background-color:rgba(207, 241, 70, 0.151); }
+    .gnb .sub { display:none; width: 100%; height:auto; position:absolute; top:40px; background-color:rgba(204, 204, 204, 0);
+    left: 0; z-index:90; height: 124px; }
+    .gnb:hover li .sub { display:block;  }
+    .gnb li .sub li { clear:both; height: 30px; line-height: 30px; }
+    .gnb li .sub li a { background-color:rgba(175, 202, 67, 0); color:rgb(0, 0, 0); font-size:13px; display:block; text-indent:2em; 
+    overflow: hidden; white-space:nowrap; text-overflow: ellipsis; }
+    .gnb li .sub li:hover a { background-color:rgba(0, 0, 0, 0);color:rgb(255, 255, 255); }
+    .content { clear: both; width: 100%; }
+    .vs { clear:both; width: 100%; height:100vh; overflow:hidden; }
+    .vdo { display:block; width:100%; height:auto; }
