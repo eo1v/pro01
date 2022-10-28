@@ -1,0 +1,65 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*, java.util.*, java.text.*"  %>
+<!DOCTYPE html>
+<html>
+<head>
+<title>게시글 상세 보기</title>
+</head>
+<body>
+<%@ include file="open.conf" %> 
+ <% 
+ // sql="select a.no no, a.title tit, a.content con,b.name nm, a.resdate res, a.author au,from boarda a inner join membera b,on a.author=b.id where a.no=?" 
+ %>
+<div class="wrap">
+	<header class="hd">
+		<%@include file="nav.jsp" %>
+	</header>
+	<div class="content">
+		<figure class="vs">
+			<img src="./img/title.jfif" alt="비주얼">
+		</figure>
+		<div class="bread">
+			<div class="bread_fr">
+				<a href="index.jsp" class="home">HOME</a> &gt;
+				<span class="sel">글 상세보기</span>
+			</div>
+		</div>
+	</div>
+	<% 
+	%>
+	<section class="page">
+		<div class="page_wrap">
+		<h2 class="page_title">글 상세보기</h2>
+		<div class="tb_fr">
+			<table class="tb">
+				<tbody>
+					<tr>
+						<th>글번호</th>
+						<td><%=no %></td>
+					</tr>
+					<tr>
+						<th>제목</th>
+						<td><%=title %></td>
+					</tr>
+					<tr>
+						<th>내용</th>
+						<td><%=content %></td>
+					</tr>
+					<tr>
+						<th>작성자</th>
+						<td><%=uname %></td>
+					</tr>
+					<tr>
+						<th>작성일</th>
+						<td><%=resdate %></td>
+					</tr>	
+				</tbody>
+			</table>
+		</div>
+		</div>
+	</section>
+</div>
+<%@ include file="close.conf" %>
+</body>
+</html>

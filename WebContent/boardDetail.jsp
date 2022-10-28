@@ -34,6 +34,7 @@
 		pstmt = con.prepareStatement(sql);
 		pstmt.setInt(1, no);
 		rs = pstmt.executeQuery();
+	
 		
 		if(rs.next()){
 			title = rs.getString("title");
@@ -110,7 +111,7 @@
 							<tr>
 								<th>글 번호</th>
 								<td><%=no %></td>
-							</tr>
+							</tr>	
 							<tr>
 								<th>제목</th>
 								<td><%=title %></td>

@@ -60,12 +60,12 @@
         	<div class="bread">
            		 <div class="bread_fr">
                 	<a href="index.jsp" class="home">HOME</a> &gt;
-               		 <span class="sel">게시판 목록</span>
+               		 <span class="sel">자주하는 질문과 답변</span>
            		 </div>
        		 </div>
          <section class="page">
             <div class="page_wrap">
-                <h2 class="page_title">게시판 글 목록</h2>
+                <h2 class="page_title">자주하는 질문과 답변</h2>
                 <div class="tb_fr">
 					<table class="td" id="myTable">
 						<thead>
@@ -99,7 +99,7 @@
 try {
 	Class.forName("oracle.jdbc.OracleDriver");
 	con = DriverManager.getConnection(url, dbid, dbpw);
-	sql = "select * from boarda";
+	sql = "select * from faqa";
 	pstmt = con.prepareStatement(sql);
 	rs = pstmt.executeQuery();		
 	
@@ -112,16 +112,21 @@ try {
 				<td>
 <%
 				if (sid!=null) {
+					if ( rs.getString("gubun").equals("0")){
 %>
-				<a href='boardDetail.jsp?no=<%=rs.getString("no")%>'><%=rs.getString("title")%></a>
+						<a href='faqDetail.jsp?no=<%=rs.getString("no")%>'><%=rs.getString("title")%></a>
 <%
+					}else{
+%>						
+						<a href='faqDetail.jsp?no=<%=rs.getString("no")%>' style="padding-left:60px"><%=rs.getString("title")%></a>
+<% 					}
 				} else {
 %>
-				<%=rs.getString("title")%>
+				<span><%=rs.getString("title")%></span>
 <%
 				}
 %>
-				<td><%=rs.getString("author")%></td>
+				<td>admin</td>
 				<td><%=rs.getDate("resdate")%></td>
 			</tr>		
 <% 
@@ -137,7 +142,9 @@ try {
 		</tbody> 
 	</table>
 		<div class="btn_group">
-			<a href="boardWrite.jsp" class="btn primary">글쓰기</a>
+			<% if (sid.equals("admin")){ %>
+			<a href="fqaWrite.jsp" class="btn primary">글쓰기</a>
+			<%} %>
 		</div>
 </div>
 		</div>

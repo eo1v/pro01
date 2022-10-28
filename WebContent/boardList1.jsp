@@ -70,20 +70,19 @@
 					<table class="td" id="myTable">
 						<thead>
 							<tr>
-								<th>번호</th>
-								<th>제목</th>
+								<th>글번호</th>
+								<th>글 제목</th>
 								<th>작성자</th>
 								<th>작성일</th>
 							</tr>
 						</thead>
 						<tbody>
-					
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
 	response.setContentType("text/html; charset=UTF-8");
 	
-	String sid = (String) session.getAttribute("id");
+	String sid = (String) session.getAttribute(id);
 	
 	Connection con = null;
 	PreparedStatement pstmt = null;
@@ -110,17 +109,18 @@ try {
 			<tr>
 				<td><%=cnt %></td>
 				<td>
-<%
+				<%
 				if (sid!=null) {
-%>
-				<a href='boardDetail.jsp?no=<%=rs.getString("no")%>'><%=rs.getString("title")%></a>
-<%
+				%>
+				<a href='boardDetail.jsp?no=<%=rs.getString("title")%>'><%=rs.getString("title")%></a>
+				<%
 				} else {
-%>
-				<%=rs.getString("title")%>
-<%
+				%>
+				<span><%=rs.getString("title")%></span>
+				<%
 				}
-%>
+				%>
+				</td>
 				<td><%=rs.getString("author")%></td>
 				<td><%=rs.getDate("resdate")%></td>
 			</tr>		
@@ -136,9 +136,6 @@ try {
 %>
 		</tbody> 
 	</table>
-		<div class="btn_group">
-			<a href="boardWrite.jsp" class="btn primary">글쓰기</a>
-		</div>
 </div>
 		</div>
         </section>

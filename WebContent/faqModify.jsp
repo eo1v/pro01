@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import="java.sql.*,java.text.*, java.util.*" %>
-<%
-	String sid = (String) session.getAttribute("id");
-%>
+<%@ page import="java.sql.*,java.text.*, java.util.*" %>
 <!DOCTYPE html>
 <html>
  <head>
@@ -39,9 +36,40 @@
     /* footer.css */
     </style>
     <link rel ="stylesheet" href="./css/footer.css" >
-    
 </head>
 <body>
+<%
+	request.setCharacterEncoding("UTF-8");
+	response.setCharacterEncoding("UTF-8");
+	response.setContentType("text/html; charset=UTF-8");
+	
+	String sid = (String) request.getAttribute("id");
+	int no = Integer.parseInt(request.getParameter("no"));
+	
+	String title = "";
+	String content = "";
+	String author = "";
+	
+	Connection con = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	String dbid = "system";
+	String dbpw = "1234";
+	String sql = "";
+	
+	try {
+		Class.forName("oracle.jdbc.OracleDriver");
+		con = DriverManager.getConnection(url, dbid, dbpw);
+		sql = "select * from faqa where no=?";
+		pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, no);
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()){
+	
+%>
 <div class="wrap">
     <header class="hd">
 		<%@ include file="nav.jsp" %>
@@ -53,37 +81,46 @@
         <div class="bread">
             <div class="bread_fr">
                 <a href="index.jsp" class="home">HOME</a> &gt;
-                <span class="sel">글 쓰기</span>
+                <span class="sel">자주하는 질문 및 답변 수정하기</span>
             </div>
         </div>
         <section class="page">
             <div class="page_wrap">
-                <h2 class="page_title">글 쓰기</h2>
+                <h2 class="page_title">자주하는 질문 및 답변 수정하기</h2>
   				<div class="frm1">
-  					<form name="frm" action="boardWritePro.jsp" method="post" class="frm">
+  				<input type="hidden" name="no" id="no" value='<%=rs.getInt("no") %>' required>
+  					<form name="frm" action="fqaModifyPro.jsp" method="post" class="frm">
 	  					<table class="tb">
-	  						<tbody>             
-								<tr>
+	  						<tbody>
+	  							<tr>	
 									<th>제목</th>
-									<td><input type="text" name="title" id="title" class="in_data" required/></td>
+									<td><input type="text" name="title" id="title" value="<%=title %>" class="in_data" required /></td>
 								</tr>
 								<tr>
 									<th>내용</th>
 									<td>
-										<textarea cols="100" rows="8" name="content" id="content"></textarea>
+										<textarea cols="100" rows="8" name="content" id="content"><%=content %></textarea>
 									</td>
 								</tr>
 								<tr>
 									<th>작성자</th>
-									<td><%=sid %>
-									<input type="hidden" name="author" id="author" value="<%=sid%>"> 
-									</td>
+									<td><%=author %></td>
 								</tr>
 							</tbody> 
 						</table>
+<% 	
+	}
+	} catch(Exception e){
+		e.printStackTrace();
+	} finally {
+		rs.close();
+		pstmt.close();
+		con.close();
+	}
+%>
 						<div class="btn_group">
-							<button type="submit" class="btn primary">글 쓰기</button>
-							<a href="boardList.jsp" class="btn primary">게시판 목록</a>
+							<button type="submit" class="btn primary">글 수정하기</button>
+							<a href="fqaList.jsp" class="btn primary">게시판 목록</a>
 						</div>
 					</form>
 				</div>

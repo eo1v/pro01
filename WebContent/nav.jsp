@@ -69,9 +69,10 @@
                         <li class="item4">
                             <a href="" class="dp1">고객센터</a>
                             <ul class="sub">
-                                <li><a href="service.jsp#page1">주문배송조회</a></li>
-                                <li><a href="service.jsp#page2">적립금 전환</a></li>
-                                <li><a href="service.jsp#page3">고객서비스</a></li>
+                                <li><a href="boardList.jsp">게시판</a></li>
+                                <li><a href="faqList.jsp">자주하는 질문과 답변</a></li>
+                                <li><a href="qnaList.jsp">질문 및 답변</a></li>
+                                <li><a href="online.jsp">온라인 상담하기</a></li>
                             </ul>
                         </li>
                         <li class="item5">

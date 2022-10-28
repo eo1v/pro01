@@ -6,12 +6,13 @@
 	response.setCharacterEncoding("UTF-8");
 	response.setContentType("text/html; charset=UTF-8");
 	
-	String uid = request.getParameter("id");
-	String upw = "";
-	String uname = "";
-	String uemail = "";
-	String utel = "";
-	String uregdate = "";
+	String sid = (String) session.getAttribute("id");
+	int no = Integer.parseInt(request.getParameter("no"));
+	
+	String title = "";
+	String content = "";
+	String resdate = "";
+	String author = "";
 	
 	Connection con = null;
 	PreparedStatement pstmt = null;
@@ -25,19 +26,17 @@
 	try {
 		Class.forName("oracle.jdbc.OracleDriver");
 		con = DriverManager.getConnection(url, dbid, dbpw);
-		sql = "select * from membera where id=?";
+		sql = "select * from faqa where no=?"; 
 		pstmt = con.prepareStatement(sql);
-		pstmt.setString(1, uid);
-		//select된 데이터가 없으면, rs=null이 됨
+		pstmt.setInt(1, no);
 		rs = pstmt.executeQuery();
-		//int cnt = pstmt.executeUpdate();
+	
 		
 		if(rs.next()){
-			upw = rs.getString("pw");
-			uname = rs.getString("name");
-			uemail = rs.getString("email");
-			utel = rs.getString("tel");
-			uregdate = rs.getString("regdate");
+			title = rs.getString("title");
+			content = rs.getString("content");
+			resdate = rs.getString("resdate");
+			author = rs.getString("author");
 		}
 	} catch(Exception e){
 		e.printStackTrace();
@@ -49,7 +48,7 @@
 %>
 <!DOCTYPE html>
 <html>
-   <head>
+ <head>
     <%@ include file ="head.jsp" %>
     <link rel="stylesheet" href="./css/reset2.css">
     <link rel="stylesheet" href="./css/header.css">
@@ -82,23 +81,6 @@
     /* footer.css */
     </style>
     <link rel ="stylesheet" href="./css/footer.css" >
-    <script>
-    $(document).ready(function(){
-        $(window).scroll(function(){
-            var ht = $(window).height();
-            var tp = $(this).scrollTop();
-            if(tp>=600){
-                $(".hd").css("position","fixed");
-            } else {
-                $(".hd").css("position","absolute");
-            }
-        });
-        $
-        $("<ul class='circle_lst lst2'></ul>").insertAfter($(".circle_lst"));
-        $lst1_obj = $(".circle_lst li").clone();
-        $(".circle_lst.lst2").append($lst1_obj);
-    });    
-    </script>
 </head>
 <body>
 <div class="wrap">
@@ -112,42 +94,46 @@
         <div class="bread">
             <div class="bread_fr">
                 <a href="index.jsp" class="home">HOME</a> &gt;
-                <span class="sel">회원목록</span>
+                <span class="sel">글 상세보기</span>
             </div>
         </div>
         <section class="page">
             <div class="page_wrap">
-                <h2 class="page_title">회원목록</h2>
+                <h2 class="page_title">글 상세보기</h2>
   				<div class="tb_fr">
   					<table class="tb">
   						<tbody>             
 							<tr>
-								<th>아이디</th>
-								<td><%=uid %></td>
+								<th>글 번호</th>
+								<td><%=no %></td>
+							</tr>	
+							<tr>
+								<th>제목</th>
+								<td><%=title %></td>
 							</tr>
 							<tr>
-								<th>비밀번호</th>
-								<td><%=upw %></td>
+								<th>내용</th>
+								<td><%=content %></td>
 							</tr>
 							<tr>
-								<th>이름</th>
-								<td><%=uname %></td>
+								<th>작성자</th>
+								<td>admin</td>
 							</tr>
 							<tr>
-								<th>이메일</th>
-								<td><%=uemail %></td>
-							</tr>
-							<tr>
-								<th>전화번호</th>
-								<td><%=utel %></td>
-							</tr>
-							<tr>
-								<th>가입일</th>
-								<td><%=uregdate %></td>
+								<th>작성일</th>
+								<td><%=resdate %></td>
 							</tr>
 						</tbody> 
 					</table>
-					<span><a href="memList.jsp">회원 목록</a></span>
+					<div class="btn_group">
+						<a href="faqList.jsp" class="btn primary">목록</a>
+						<%
+							if(sid.equals("admin")) {
+						%>
+						<a href='faqModify.jsp?no=<%=no %>' class="btn primary">글 수정</a>
+						<a href='faqDel.jsp?no=<%=no %>' class="btn primary">글 삭제</a>
+						<% } %>
+					</div>
 				</div>
 			</div>
         </section>

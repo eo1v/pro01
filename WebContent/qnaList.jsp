@@ -60,12 +60,12 @@
         	<div class="bread">
            		 <div class="bread_fr">
                 	<a href="index.jsp" class="home">HOME</a> &gt;
-               		 <span class="sel">게시판 목록</span>
+               		 <span class="sel">질문 및 답변</span>
            		 </div>
        		 </div>
          <section class="page">
             <div class="page_wrap">
-                <h2 class="page_title">게시판 글 목록</h2>
+                <h2 class="page_title">질문 및 답변</h2>
                 <div class="tb_fr">
 					<table class="td" id="myTable">
 						<thead>
@@ -77,13 +77,14 @@
 							</tr>
 						</thead>
 						<tbody>
-					
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
 	response.setContentType("text/html; charset=UTF-8");
 	
+
 	String sid = (String) session.getAttribute("id");
+	
 	
 	Connection con = null;
 	PreparedStatement pstmt = null;
@@ -93,13 +94,13 @@
 	String dbid ="system";
 	String dbpw="1234";
 	String sql ="";
-
+	
 	int cnt=0;
 		
 try {
 	Class.forName("oracle.jdbc.OracleDriver");
 	con = DriverManager.getConnection(url, dbid, dbpw);
-	sql = "select * from boarda";
+	sql = "select * from qnaa";
 	pstmt = con.prepareStatement(sql);
 	rs = pstmt.executeQuery();		
 	
@@ -110,17 +111,56 @@ try {
 			<tr>
 				<td><%=cnt %></td>
 				<td>
-<%
-				if (sid!=null) {
+<%	if(rs.getString("sec").equals("Y")){
+				if(rs.getInt("lev")==0){
+					if(sid.equals(rs.getString("author")) || sid.equals("admin")){
 %>
-				<a href='boardDetail.jsp?no=<%=rs.getString("no")%>'><%=rs.getString("title")%></a>
+				<a href='qnaDetail.jsp?no=<%=rs.getString("no")%>'><%=rs.getString("title")%></a>
 <%
-				} else {
+					} else {
 %>
-				<%=rs.getString("title")%>
+					<span><%=rs.getString("title")%></span>
 <%
+					} 
+				}else {
+					if(sid.equals(rs.getString("author")) || sid.equals("admin")){
+%>
+					<a href='qnaDetail.jsp?no=<%=rs.getString("no")%>' style="padding-left:30px"><%=rs.getString("title")%></a>
+<%
+					} else { 
+%>
+					<span><%=rs.getString("title") %></span>
+<%
+					}
 				}
+	} else {
+				if(rs.getInt("lev")==0){
+						if(sid.equals(rs.getString("author")) || sid.equals("admin")){
 %>
+					<a href='qnaDetail.jsp?no=<%=rs.getString("no")%>'><%=rs.getString("title")%></a>
+<%
+						} else {
+%>
+						<span><%=rs.getString("title")%></span>
+<%
+						} 
+					}else {
+						if(sid.equals(rs.getString("author")) || sid.equals("admin")){
+%>
+						<a href='qnaDetail.jsp?no=<%=rs.getString("no")%>' style="padding-left:30px"><%=rs.getString("title")%></a>
+<%
+						} else { 
+%>
+						<span><%=rs.getString("title") %></span>
+<%
+						}
+					} 
+				}					
+%>
+
+
+	
+				</td>
 				<td><%=rs.getString("author")%></td>
 				<td><%=rs.getDate("resdate")%></td>
 			</tr>		
@@ -137,7 +177,7 @@ try {
 		</tbody> 
 	</table>
 		<div class="btn_group">
-			<a href="boardWrite.jsp" class="btn primary">글쓰기</a>
+			<a href="qnaWrite.jsp" class="btn primary">글쓰기</a>
 		</div>
 </div>
 		</div>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*,java.text.*, java.util.*" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
@@ -93,7 +93,7 @@
     </header>
     <div class="content">
         <figure class="vs">
-            <img src="./img/vs1.jpg" alt="비주얼">
+            <img src="./img/title.jfif" alt="비주얼">
         </figure>
         <div class="bread">
             <div class="bread_fr">

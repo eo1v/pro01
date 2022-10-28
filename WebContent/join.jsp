@@ -98,7 +98,7 @@
                                 <tr>
                                     <th><label for="id">아이디</label></th>
                                     <td>
-                                        <input type="text" id="id" name="id" class="in_dt" style="display:block; float:left;" required autofocus>
+                                        <input type="text" id="id" name="id" class="in_dt" style="display:block; float:left;" placeholder="아이디를 입력해주세요" required autofocus>
                                         <button type="button" class="in_btn" onclick="idCheck()" style="margin-left:20px">아이디 중복 확인</button>
                                         <input type="hidden" name="idck" value="no" />
                                     </td>
@@ -106,13 +106,13 @@
                                 <tr>
                                     <th><label for="pw">비밀번호</label></th>
                                     <td>
-                                        <input type="password" id="pw" name="pw" class="in_dt" required>
+                                        <input type="password" id="pw" name="pw" class="in_dt" placeholder="비밀번호를 입력해주세요" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th><label for="pw2">비밀번호 확인</label></th>
                                     <td>
-                                        <input type="password" id="pw2" name="pw2" class="in_dt" required>
+                                        <input type="password" id="pw2" name="pw2" class="in_dt" placeholder="비밀번호 확인해주세요" required>
                                     </td>
                                 </tr>
                                 <tr>
@@ -124,7 +124,7 @@
                                 <tr>
                                     <th><label for="email">이메일</label></th>
                                     <td>
-                                        <input type="email" id="email" name="email" class="in_dt" required>
+                                        <input type="email" id="email" name="email" class="in_dt" pattern=".+@naver\.com" placeholder="네이버 이메일 주소를 입력" required>
                                     </td>
                                 </tr>
                                 <tr>
