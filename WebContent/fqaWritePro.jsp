@@ -9,5 +9,6 @@
 	
 	Connection con = null;
 	PreparedStatement pstmt = null;
+	ResultSet rs = null;
 	
 %>
